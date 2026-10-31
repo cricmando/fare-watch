@@ -21,15 +21,16 @@ from pathlib import Path
 # ---------------------------------------------------------------- trip config
 
 TRIP = {
-    "departure_id": "EWR",
-    "arrival_id": "BOM",
+    "departure_id": "JFK",
+    "arrival_id": "DEL",
     "outbound_date": "2026-12-12",
     "return_date": "2026-12-22",
     "travel_class": "3",   # 1 economy, 2 premium economy, 3 business, 4 first
-    "stops": "1",          # 1 = nonstop only; omit or use 0 for any
     "type": "1",           # 1 = round trip
     "currency": "USD",
     "hl": "en",
+    # "stops": "1",        # uncomment for nonstop only, once you know the
+    #                        route actually has one on these days
 }
 
 TARGET = float(os.environ.get("TARGET_PRICE", 4000))    # book at or below

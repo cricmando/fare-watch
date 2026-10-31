@@ -4,8 +4,8 @@ Checks one route on Google Flights once a day through SerpApi, records every
 reading in `fares.csv`, and emails you only when the fare crosses a threshold
 you set.
 
-Currently configured for **EWR–BOM, Dec 12–22 2026, business, nonstop only**,
-with a $4,000 buy target and a $6,000 walk-away ceiling.
+Currently configured for **JFK–DEL, Dec 12–22 2026, business, any number of
+stops**, with a $4,000 buy target and a $6,000 walk-away ceiling.
 
 ## Layout
 
