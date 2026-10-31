@@ -27,14 +27,13 @@ TRIP = {
     "return_date": "2026-12-22",
     "travel_class": "3",   # 1 economy, 2 premium economy, 3 business, 4 first
     "type": "1",           # 1 = round trip
+    "stops": "2",          # 0 any, 1 nonstop only, 2 one stop max, 3 two stops max
     "currency": "USD",
     "hl": "en",
-    # "stops": "1",        # uncomment for nonstop only, once you know the
-    #                        route actually has one on these days
 }
 
 TARGET = float(os.environ.get("TARGET_PRICE", 4000))    # book at or below
-CEILING = float(os.environ.get("CEILING_PRICE", 6000))  # walk away above
+CEILING = float(os.environ.get("CEILING_PRICE", 8000))  # walk away above
 HISTORY = Path(os.environ.get("HISTORY_FILE", "fares.csv"))
 TIMEOUT = 45
 
