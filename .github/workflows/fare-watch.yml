@@ -1,0 +1,48 @@
+name: Fare watch
+
+on:
+  schedule:
+    # 13:05 UTC daily, roughly 9am Eastern. GitHub runs scheduled jobs on a
+    # best-effort basis and often starts them late; an off-the-hour minute
+    # avoids the busiest queue.
+    - cron: "5 13 * * *"
+  workflow_dispatch:        # lets you run it by hand from the Actions tab
+
+permissions:
+  contents: write           # needed to commit the price history back
+
+concurrency:
+  group: fare-watch
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Check the fare
+        env:
+          SERPAPI_KEY: ${{ secrets.SERPAPI_KEY }}
+          TARGET_PRICE: "4000"
+          CEILING_PRICE: "6000"
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+          EMAIL_TO: ${{ secrets.EMAIL_TO }}
+        run: python check_fares.py
+
+      - name: Save the price history
+        run: |
+          if [ -n "$(git status --porcelain fares.csv)" ]; then
+            git config user.name "fare-watch"
+            git config user.email "actions@github.com"
+            git add fares.csv
+            git commit -m "Fare check $(date -u +%Y-%m-%d)"
+            git push
+          else
+            echo "Nothing new to commit."
+          fi
